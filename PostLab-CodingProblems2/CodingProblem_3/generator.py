@@ -1,45 +1,53 @@
 """
 Program: generator.py
-Author: Ken
-Generates and displays sentences using a simple grammar
-and vocabulary.  Words are chosen at random.
+Generates and displays sentences using simple grammar
+and vocabulary. Words are chosen at random.
 """
 
 import random
+def getWords(filename):
+    """Reads a file and returns a tuple of words."""
+    word_list = []
+    try:
+        with open(filename, 'r') as file:
+            # Read each line and strip newline characters
+            for line in file:
+                word_list.append(line.strip())
+        # Convert list to tuple before returning
+        return tuple(word_list)
+    except FileNotFoundError:
+        print(f"Error: The file {filename} does not exist.")
+        return tuple()
 
-articles = ("A", "THE")
+# Load vocabulary from files
+nouns = getWords("nouns.txt")
+verbs = getWords("verbs.txt")
+articles = getWords("articles.txt")
+prepositions = getWords("prepositions.txt")
 
-nouns = ("BOY", "GIRL", "BAT", "BALL")
+# Ensure all files were loaded successfully
+if not all([nouns, verbs, articles, prepositions]):
+    print("Error: One or more vocabulary files are missing or empty.")
+    exit()
 
-verbs = ("HIT", "SAW", "LIKED")
+# Function to generate a random sentence
+def generate_sentence():
+    article = random.choice(articles)
+    noun = random.choice(nouns)
+    verb = random.choice(verbs)
+    preposition = random.choice(prepositions)
+    object_noun = random.choice(nouns)
 
-prepositions = ("WITH", "BY")
+    # Form the sentence
+    sentence = f"{article} {noun} {verb} {preposition} {object_noun}."
+    return sentence
 
-def sentence():
-    """Builds and returns a sentence."""
-    return nounPhrase() + " " + verbPhrase()
-
-def nounPhrase():
-    """Builds and returns a noun phrase."""
-    return random.choice(articles) + " " + random.choice(nouns)
-
-def verbPhrase():
-    """Builds and returns a verb phrase."""
-    return random.choice(verbs) + " " + nounPhrase() + " " + \
-           prepositionalPhrase()
-
-def prepositionalPhrase():
-    """Builds and returns a prepositional phrase."""
-    return random.choice(prepositions) + " " + nounPhrase()
-
-def main():
-    """Allows the user to input the number of sentences
-    to generate."""
-    number = int(input("Enter the number of sentences: "))
-    for count in range(number):
-        print(sentence())
-
-# The entry point for program execution
+# Main loop to generate sentences
 if __name__ == "__main__":
-    main()
+    print("Sentence Generator!")
+    while True:
+        print(generate_sentence())
+        continue_choice = input("Generate another sentence? (y/n): ").strip().lower()
+        if continue_choice != 'y':
+            break
 
