@@ -1,0 +1,10 @@
+runs
+jumps
+eats
+drives
+sings
+paints
+reads
+writes
+thinks
+watches
