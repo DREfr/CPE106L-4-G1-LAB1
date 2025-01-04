@@ -1,4 +1,3 @@
-# stats.py
 import mode  # Import mode.py
 import median  # Import median.py
 import mean  # Import mean.py
@@ -33,3 +32,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
